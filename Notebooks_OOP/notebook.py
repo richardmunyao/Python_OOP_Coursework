@@ -27,21 +27,33 @@ class Notebook:
         '''Initialize new note, append to list of notes'''
         self.notes.append(Note(memo, tags=''))
 
-    def _find_note(self, note_id):
-        '''Locate note with given id. For internal use'''
+    def _find_note(self, note_id:str):
+        '''Locate note with given id (passed as a string). For internal use'''
         for note in self.notes:
-            if note.id == note_id:
+            if note.id == str(note_id):
+                #print("found note!")
                 return note
+            else:
+                #print("Didn't find note, returning None")
+                pass            
         return None
 
     def modify_memo(self,note_id, memo):
-        '''Find note, given id, and modify memo contents'''
-        self._find_note(note_id).memo = memo
+        '''Find note, given id, and modify memo contents'''        
+        # self._find_note(note_id).memo = memo
+        try:
+            note = self._find_note(note_id)        
+            note.memo = memo
+        except:
+            print(f"Could not find memo with id: {note_id}")
         
         
     def modify_tags(self, note_id, tags):
         '''Find note, given id, and modify memo tags'''
-        self._find_note(note_id).tags = tags
+        try:
+            self._find_note(note_id).tags = tags
+        except:
+            print(f"Could not find memo with id: {note_id}")
 
     def search(self, filter):
         '''Find all notes that match filter string'''
